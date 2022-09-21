@@ -3,11 +3,12 @@ import fileDownload from "js-file-download";
 import { Grid } from "@mui/material";
 
 const FileInput = () => {
+
   const [selectedFile, setSelectedFile] = useState();
   const [isSelected, setIsSelected] = useState(false);
   const [formattedArr, setFormattedArr] = useState([]);
   const [newArr, setNewArr] = useState([]);
-  const [dataGridKey, setDataGridKey] = useState(0);
+
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
     setIsSelected(true);
@@ -44,13 +45,12 @@ const FileInput = () => {
           newArr.push(inCompleteArr[i]);
         }
       }
-      setDataGridKey(dataGridKey + 1);
+      setFormattedArr(...formattedArr, newArr)
 
     };
     reader.readAsText(event.target.files[0]);
   };
 
-  useEffect(() => setFormattedArr(newArr), [newArr]);
 
   return (
     <div>
@@ -79,7 +79,7 @@ const FileInput = () => {
               Download File
             </button>
           </Grid>
-          <Grid item xs={5} key={"dataGridKey-" + dataGridKey}>
+          <Grid item xs={5} >
             {formattedArr.map((item, index) => {
               return <p key={index}>{item}</p>;
             })}
